@@ -1,15 +1,16 @@
 MAIN := main.py
 
-CFLAGS := -Wall -Wextra
+PYTHON ?= python
+CFLAGS ?= -Wall -Wextra
 
 SRCDIR := src
 
 all: $(SRCDIR)/$(MAIN)
-	@python $(SRCDIR)/$(MAIN)
+	@$(PYTHON) $(SRCDIR)/$(MAIN)
 	@$(CC) -c ./out/kbbi_data.c -o ./out/kbbi_data.o
-	@rm ./out/kbbi_data.c
+	@$(RM) ./out/kbbi_data.c
 
 clean:
-	@rm -rf ./out/kbbi_*
+	@$(RM) -rf ./out/kbbi_*
 
 .PHONY: all
