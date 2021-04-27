@@ -1,0 +1,3 @@
+[submodule "submodules/kbbi-data-source"]
+	path = submodules/kbbi-data-source
+	url = https://github.com/misterabdul/kbbi-data-source
