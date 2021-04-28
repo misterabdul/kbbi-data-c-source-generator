@@ -50,10 +50,11 @@ def generator(query, path):
     )
 
     out.write(
-        'void kbbi_data_search(Results** result, const char* query, const int query_size){\n'
+        'int kbbi_data_search(Results** result, int* result_count, const char* query, const int query_size){\n'
         '  if (*result != NULL)\n'
         '    kbbi_data_free_result(*result);\n'
         '  Results *head = NULL, *tracer = NULL;\n'
+        '  *result_count = 0;\n'
         '  for (int i = 0; i < katakunci_size; i++){\n'
         '    if (strncmp(katakunci[i], query, query_size) == 0){\n'
         '      Results* temp = malloc(sizeof(struct results));\n'
@@ -72,10 +73,20 @@ def generator(query, path):
         '        tracer->next = temp;\n'
         '        tracer = tracer->next;\n'
         '      }\n'
+        '      (*result_count)++;'
         '    }\n'
         '  }\n'
         '  *result = head;\n'
-        '}\n'
+        '  if((*result_count))\n'
+        '    return 1;\n'
+        '  return 0;'
+        '}\n\n'
+    )
+
+    out.write(
+        'int kbbi_data_count(){\n'
+        '  return ' + str(len(dat)) + ';\n'
+        '}\n\n'
     )
 
     cur.close()
@@ -96,7 +107,8 @@ def header(path):
         '} Results;\n\n'
         'Results* kbbi_data_init_result();\n\n'
         'void kbbi_data_free_result(Results* results);\n\n'
-        'void kbbi_data_search(Results** results, const char* query, const int query_size);\n\n'
+        'int kbbi_data_search(Results** results, int* result_count, const char* query, const int query_size);\n\n'
+        'int kbbi_data_count();\n\n'
         '#endif'
     )
     out.close()
