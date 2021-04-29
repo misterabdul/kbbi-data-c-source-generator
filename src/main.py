@@ -29,8 +29,8 @@ def generator(query, path):
     out.write('};\n\n')
 
     out.write(
-        'Results* kbbi_data_init_result() {\n'
-        '  Results* results = malloc(sizeof(struct results));\n'
+        '_Results* kbbi_data_init_result() {\n'
+        '  _Results* results = malloc(sizeof(struct _results));\n'
         '  results->katakunci = NULL;\n'
         '  results->artikata = NULL;\n'
         '  results->next = NULL;\n'
@@ -39,7 +39,7 @@ def generator(query, path):
     )
 
     out.write(
-        'void kbbi_data_free_result(Results* results){\n'
+        'void kbbi_data_free_result(_Results* results){\n'
         '  if(results->next) {\n'
         '    kbbi_data_free_result(results->next);\n'
         '  }\n'
@@ -50,14 +50,14 @@ def generator(query, path):
     )
 
     out.write(
-        'int kbbi_data_search(Results** result, int* result_count, const char* query, const int query_size){\n'
+        'int kbbi_data_search(_Results** result, int* result_count, const char* query, const int query_size){\n'
         '  if (*result != NULL)\n'
         '    kbbi_data_free_result(*result);\n'
-        '  Results *head = NULL, *tracer = NULL;\n'
+        '  _Results *head = NULL, *tracer = NULL;\n'
         '  *result_count = 0;\n'
         '  for (int i = 0; i < katakunci_size; i++){\n'
         '    if (strncmp(katakunci[i], query, query_size) == 0){\n'
-        '      Results* temp = malloc(sizeof(struct results));\n'
+        '      _Results* temp = malloc(sizeof(struct _results));\n'
         '      temp->next = NULL;\n'
         '      temp->katakunci = malloc(strlen(katakunci[i]) + 1);\n'
         '      strncpy(temp->katakunci, katakunci[i], strlen(katakunci[i]));\n'
@@ -100,14 +100,14 @@ def header(path):
     out.write(
         '#ifndef _KBBI_DATA_H\n'
         '#define _KBBI_DATA_H\n\n'
-        'typedef struct results {\n'
+        'typedef struct _results {\n'
         '  char* katakunci;\n'
         '  char* artikata;\n'
-        '  struct results* next;\n'
-        '} Results;\n\n'
-        'Results* kbbi_data_init_result();\n\n'
-        'void kbbi_data_free_result(Results* results);\n\n'
-        'int kbbi_data_search(Results** results, int* result_count, const char* query, const int query_size);\n\n'
+        '  struct _results* next;\n'
+        '} _Results;\n\n'
+        '_Results* kbbi_data_init_result();\n\n'
+        'void kbbi_data_free_result(_Results* results);\n\n'
+        'int kbbi_data_search(_Results** results, int* result_count, const char* query, const int query_size);\n\n'
         'int kbbi_data_count();\n\n'
         '#endif'
     )
