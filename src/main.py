@@ -40,18 +40,20 @@ def generator(query, path):
 
     out.write(
         'void kbbi_data_free_result(_Results* results){\n'
-        '  if(results->next) {\n'
+        '  if(results->katakunci)\n'
+        '    free(results->katakunci);\n'
+        '  if(results->artikata)\n'
+        '    free(results->artikata);\n'
+        '  if(results->next)\n'
         '    kbbi_data_free_result(results->next);\n'
-        '  }\n'
-        '  free(results->katakunci);\n'
-        '  free(results->artikata);\n'
-        '  free(results);\n'
+        '  if(results)\n'
+        '    free(results);\n'
         '}\n\n'
     )
 
     out.write(
         'int kbbi_data_search(_Results** result, int* result_count, const char* query, const int query_size){\n'
-        '  if (*result != NULL)\n'
+        '  if (*result)\n'
         '    kbbi_data_free_result(*result);\n'
         '  _Results *head = NULL, *tracer = NULL;\n'
         '  *result_count = 0;\n'
