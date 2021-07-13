@@ -8,10 +8,8 @@ SRCDIR := src
 
 all: $(SRCDIR)/$(MAIN)
 	@$(PYTHON) $(SRCDIR)/$(MAIN)
-	@$(CC) -c ./out/kbbi_data.c -o ./out/kbbi_data.o $(CFLAGS) $(SFLAGS)
-	@$(RM) ./out/kbbi_data.c
 
 clean:
-	@$(RM) -rf ./out/kbbi_*
+	@$(RM) -rf ./out/*
 
 .PHONY: all
