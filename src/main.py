@@ -56,7 +56,7 @@ with open(os.path.join(os.path.dirname(__file__), 'kbbi_data.template.c'), 'r') 
         elif('char* artikata[];' in line):
             out.write('char* artikata[] = {\n')
             for row in db:
-                out.write('  \"'+html.unescape(row[1])+'\",\n')
+                out.write('  \"'+html.unescape(row[1]).replace('\"', '\\\"')+'\",\n')
             out.write('};\n')
         elif('return 0; /* tobe replaced */' in line):
             out.write('  return '+str(len(db))+';\n')
