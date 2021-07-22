@@ -3,13 +3,19 @@
 
 #include "kbbi_data.h"
 
-const int katakunci_size = 0;
-char* katakunci[];
+#ifndef _KBBI_DATA_HIDE_INTERNALS
+#define KBBI_INTERNAL_VISIBILITY
+#else
+#define KBBI_INTERNAL_VISIBILITY __attribute__((visibility("hidden")))
+#endif
 
-const int artikata_size = 0;
-char* artikata[];
+static const int katakunci_size = 0;
+static char* katakunci[];
 
-_Results*
+static const int artikata_size = 0;
+static char* artikata[];
+
+KBBI_INTERNAL_VISIBILITY _Results*
 kbbi_data_init_result()
 {
   _Results* results = malloc(sizeof(struct _results));
@@ -19,7 +25,7 @@ kbbi_data_init_result()
   return results;
 }
 
-void
+KBBI_INTERNAL_VISIBILITY void
 kbbi_data_free_result(_Results* results)
 {
   if (results->katakunci)
@@ -32,7 +38,7 @@ kbbi_data_free_result(_Results* results)
     free(results);
 }
 
-int
+KBBI_INTERNAL_VISIBILITY int
 kbbi_data_search(_Results** result,
                  int* result_count,
                  const char* query,
@@ -69,7 +75,7 @@ kbbi_data_search(_Results** result,
   return 0;
 }
 
-int
+KBBI_INTERNAL_VISIBILITY int
 kbbi_data_count()
 {
   return 0; /* tobe replaced */

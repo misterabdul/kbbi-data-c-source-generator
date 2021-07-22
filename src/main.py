@@ -44,17 +44,17 @@ with open(os.path.join(os.path.dirname(__file__), 'kbbi_data.template.c'), 'r') 
     writeHead(out)
     db = readSqliteDatabase('SELECT katakunci, artikata FROM datakata')
     for line in file:
-        if('const int katakunci_size = 0;' in line):
-            out.write('const int katakunci_size = '+str(len(db))+";\n")
-        elif('const int artikata_size = 0;' in line):
-            out.write('const int artikata_size = '+str(len(db))+";\n")
-        elif('char* katakunci[];' in line):
-            out.write('char* katakunci[] = {\n')
+        if('static const int katakunci_size = 0;' in line):
+            out.write('static const int katakunci_size = '+str(len(db))+";\n")
+        elif('static const int artikata_size = 0;' in line):
+            out.write('static const int artikata_size = '+str(len(db))+";\n")
+        elif('static char* katakunci[];' in line):
+            out.write('static char* katakunci[] = {\n')
             for row in db:
                 out.write('  \"'+html.unescape(row[0])+'\",\n')
             out.write('};\n')
-        elif('char* artikata[];' in line):
-            out.write('char* artikata[] = {\n')
+        elif('static char* artikata[];' in line):
+            out.write('static char* artikata[] = {\n')
             for row in db:
                 out.write('  \"'+html.unescape(row[1]).replace('\"', '\\\"')+'\",\n')
             out.write('};\n')

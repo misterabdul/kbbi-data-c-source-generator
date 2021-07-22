@@ -1,6 +1,8 @@
 #ifndef _KBBI_DATA_H
 #define _KBBI_DATA_H
 
+/* #define _KBBI_DATA_HIDE_INTERNALS */
+
 typedef struct _results
 {
   char* katakunci;
